@@ -1,7 +1,9 @@
+import time
 from flask import Flask, request, jsonify, send_from_directory
 import os
+from chat_module import chatRequest
 
-app = Flask(__name__, static_folder="../frontend/dist")
+app = Flask(__name__, static_folder="../client/dist")
 
 
 @app.route('/', defaults={'path': ''})
@@ -24,9 +26,13 @@ def about():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    data = request.json()
+    data = request.json
     print(data)
-    return jsonify({'message': 'Hello World'})
+    # wait 5 seconds before returning a response
+    chat_response = chatRequest(data['message'])
+    # return a response with 201 (created) status code
+
+    return jsonify({'message': chat_response, "user": False}), 201
 
 
 if __name__ == '__main__':

@@ -7,18 +7,21 @@ import { CircularProgress } from "@mui/joy";
 export default function InputBox({
   addMessage,
 }: {
-  addMessage: (message: string, user: boolean) => void;
+  addMessage: (message: string, user: boolean) => Promise<number>;
 }) {
   // Create a state variable to keep track of input value
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function submitMessage() {
+  async function submitMessage() {
     if (inputValue === "") {
       return;
     } else {
       setIsLoading(true);
-      addMessage(inputValue, true);
+      const reponseStatus = await addMessage(inputValue, true);
+      if (reponseStatus !== 201) {
+        alert("An error occurred. Please try again.");
+      }
       setIsLoading(false);
       setInputValue("");
     }

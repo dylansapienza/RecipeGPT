@@ -5,6 +5,7 @@ import Typography from "@mui/joy/Typography";
 import Message from "./Message/Message";
 import InputBox from "./InputBox/InputBox";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 
 const startingMessages = [
   { message: "Hello", user: true },
@@ -17,15 +18,45 @@ const startingMessages = [
   { message: "Nothing much", user: false },
 ];
 
+interface AxiosError {
+  response?: {
+    status: number;
+  };
+}
+
 export default function Chat() {
   const [messages, setMessages] = useState(startingMessages); // Create a state variable to keep track of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
 
-  function addMessage(message: string, user: boolean) {
+  async function addMessage(message: string, user: boolean): Promise<number> {
     // Create a new message object
     const newMessage = { message: message, user: user };
+
     // Add new message to messages array
-    setMessages([...messages, newMessage]);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    try {
+      // Send message to flask API using axios
+      const response = await axios.post("/api/chat", { message: message });
+      console.log(response);
+      // strip first newline characters from response, but allow other newlines after that
+      response.data.message = response.data.message.replace(/^\n+/, "");
+      // Use function form to ensure you're working with the latest state
+      setMessages((prevMessages) => [...prevMessages, response.data]);
+
+      // Return the status code
+      return response.status;
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      if (err.response) {
+        // The request was made and the server responded with a status code outside of the range of 2xx
+        // remove the message from the messages array
+        setMessages((prevMessages) => prevMessages.slice(0, -1));
+        return err.response.status;
+      }
+      return -1; // Indicate an error occurred but not from the server's response
+    }
   }
 
   useEffect(() => {
