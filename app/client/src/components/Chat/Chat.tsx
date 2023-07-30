@@ -3,8 +3,8 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import Message from "./Message/Message";
-import InputBox from "./InputBox/Inputbox";
-import React, { useState, useRef, useEffect } from "react";
+import InputBox from "./InputBox/InputBox";
+import { useState, useRef, useEffect } from "react";
 
 const startingMessages = [
   { message: "Hello", user: true },
