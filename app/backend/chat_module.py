@@ -1,5 +1,18 @@
 # ensure that the OPENAI_API_KEY is set in the environment
+from langchain.schema import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage
+)
 from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
+
+# create a chat model
+# can be editied to gpt4
+chat = ChatOpenAI(model_name='gpt-3.5-turbo')
+
+print(chat)
+
 # from langchain.vectorstores import FAISS
 # from langchain.embeddings.openai import OpenAIEmbeddings
 
@@ -13,7 +26,8 @@ llm = OpenAI()
 
 
 def chatRequest(query: str):
-    return llm(query)
+    response = chat([HumanMessage(content=query)])
+    return response.content
 
 
 # def chatRequest():

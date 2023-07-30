@@ -69,7 +69,7 @@ export default function Chat() {
     <Grid xs={10}>
       <Sheet
         sx={{
-          height: "90vh",
+          height: "85vh",
           mx: "auto", // margin left & rights
           my: 1, // margin top & bottom
           pt: 2,

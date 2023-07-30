@@ -7,7 +7,7 @@ export default function Sidebar() {
     <Grid xs={2}>
       <Sheet
         sx={{
-          height: "90vh",
+          height: "81vh",
           mx: 0,
           my: 1, // margin top & bottom
           py: 3, // padding top & bottom
