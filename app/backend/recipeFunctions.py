@@ -2,7 +2,6 @@
 import fitz
 from PIL import Image
 import io
-from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import json

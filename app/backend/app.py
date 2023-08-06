@@ -2,7 +2,7 @@ import time
 from flask import Flask, request, jsonify, send_from_directory
 import os
 from chat_module import chatRequest
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
 from recipeFunctions import recipeOrchestrator
@@ -21,7 +21,7 @@ def load_faiss_index():
 
 
 def load_llm():
-    llm = OpenAI()
+    llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
     return llm
 
 
