@@ -1,7 +1,8 @@
 import { Divider, Stack, Typography } from "@mui/joy";
 import Grid from "@mui/joy/Grid";
 import Sheet from "@mui/joy/Sheet";
-import RecipeCard from "../Chat/RecipeCard/RecipeCard";
+import { useEffect, useRef } from "react";
+import MinifiedRecipeCard from "./MinifiedRecipeCard";
 
 interface RecipeCardProps {
   recipeTitle: string;
@@ -16,8 +17,16 @@ export default function Sidebar({
 }: {
   savedRecipes: RecipeCardProps[];
 }) {
+  const bottomRecipe = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (bottomRecipe.current) {
+      bottomRecipe.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [savedRecipes]);
+
   return (
-    <Grid xs={2}>
+    <Grid xs={3}>
       <Sheet
         sx={{
           height: "81vh",
@@ -36,11 +45,17 @@ export default function Sidebar({
             Saved Recipes
           </Typography>
           <Divider />
-          <Stack>
+          <Stack
+            sx={{
+              flexGrow: 1,
+              overflowY: "auto", // Add vertical scroll
+              maxHeight: "calc(90vh - 12vh)",
+            }}
+          >
             {savedRecipes.length > 0 ? (
               savedRecipes.map((recipe) => {
                 return (
-                  <RecipeCard
+                  <MinifiedRecipeCard
                     recipeTitle={recipe.recipeTitle}
                     base64recipeImage={recipe.base64recipeImage}
                     recipeAuthor={recipe.recipeAuthor}
@@ -51,8 +66,15 @@ export default function Sidebar({
                 );
               })
             ) : (
-              <></>
+              <Typography
+                level="h5"
+                sx={{ textAlign: "center", paddingTop: "5rem" }}
+                color="neutral"
+              >
+                No saved recipes yet!
+              </Typography>
             )}
+            <div ref={bottomRecipe} />
           </Stack>
         </div>
       </Sheet>

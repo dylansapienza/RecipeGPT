@@ -20,7 +20,7 @@ export default function InputBox({
       setIsLoading(true);
       const reponseStatus = await addMessage(inputValue, true);
       if (reponseStatus !== 201) {
-        alert("An error occurred. Please try again.");
+        alert("No Recipes Found! Try making your query more specific.");
       }
       setIsLoading(false);
       setInputValue("");

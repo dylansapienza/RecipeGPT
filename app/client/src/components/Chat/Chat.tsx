@@ -123,7 +123,7 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <Grid xs={10}>
+    <Grid xs={9}>
       <Sheet
         sx={{
           height: "85vh",
@@ -167,10 +167,11 @@ export default function Chat({
                 <Message key={index} messageProps={message} />
               )
             )}
-            <div ref={messageEndRef} />
+
             {recipe && (
               <RecipeCard {...recipe} addSavedRecipe={addSavedRecipe} />
             )}
+            <div ref={messageEndRef} />
           </Stack>
           <InputBox addMessage={addMessage} />
         </Sheet>
