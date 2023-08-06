@@ -1,3 +1,4 @@
 data
-faiss_index
+faiss_index*
 .ipynb_checkpoints
+../app/backend/__pycache__
